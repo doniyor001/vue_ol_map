@@ -1,28 +1,62 @@
 <template>
-    <div id = "map">
-    </div>
+    <div class="map"></div>
 </template>
 
 <script>
-import { Map, View } from 'ol';
-import { Tile as TileLayer } from 'ol/layer';
-import { OSM } from 'ol/source';
-
+/* eslint-disable */
+// import openlayer css for style
+import "ol/ol.css";
+// This is library of openlayer for handle map
+import Map from "ol/Map";
+import View from "ol/View";
+import { defaults as defaultControls, ScaleLine } from "ol/control";
+import {Tile as TileLayer, Vector as VectorLayer} from 'ol/layer';
+import {OSM, Vector as VectorSource} from 'ol/source';
 export default {
-    name: 'Map',
-    mounted() {
-        this.map = new Map({
-            target: 'map',
-            layers: [
-                new TileLayer({
-                    source: new OSM()
-                })
-            ],
-            view: new View({
-                center: [0, 0],
-                zoom: 2
-            })
-        })
-    }
-}
+    name:'Map',
+    async mounted() {
+        await this.initiateMap();
+    },
+    methods: {
+        initiateMap() {
+            // create vector layer
+            var source = new VectorSource();
+            var vector = new VectorLayer({
+                source: source
+            });
+            // create title layer
+            var raster = new TileLayer({
+                source: new OSM(),
+            });
+            // create map with 2 layer
+            var map = new Map({
+                controls: defaultControls().extend([
+                    new ScaleLine({
+                        units: "degrees",
+                    }),
+                ]),
+                target: "map",
+                layers: [raster, vector],
+                view: new View({
+                    projection: "EPSG:4326",
+                    center: [0, 0],
+                    zoom: 2,
+                }),
+            });
+        },
+    },
+};
 </script>
+
+<style scoped>
+.map{
+    margin-top: 2rem;
+    margin: 2rem;
+    padding: 1.5rem;
+    background-color: #fcfaf5;
+    border-radius: 4px;
+    box-shadow: 15px 15px 15px rgb(0, 0, 0, 0.15);
+    background-color: #fcfaf5;
+    box-shadow: 15px 15px 15px rgba(0, 0, 0, 0.15);
+}
+</style>
