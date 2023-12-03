@@ -88,7 +88,7 @@ export default {
                 longitude: this.longitude,
                 latitude: this.latitude,
                 type: this.type,
-                id: Date.now(),
+                //id: Date.now(),
             }
             this.$emit('createMovie', newMovie) //ona divga ma'lumot jo'natish
             this.name = ''

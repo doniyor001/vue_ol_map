@@ -24,7 +24,7 @@ export default {
     },
     methods:{
         onLike() {
-            this.$emit('onLike', this.list.id)
+            this.$emit('onLike', this.movie.id)
         },
     },
 }
